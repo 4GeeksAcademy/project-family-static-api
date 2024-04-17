@@ -48,8 +48,12 @@ class FamilyStructure:
         return self._members
 
     def delete_member(self, id):
+        total = len(self._members)
         self._members = [member for member in self._members if member["id"] != id]
-        return self._members
+        if len(self._members) == total:
+            return None
+        else: 
+            return self._members
 
     def get_member(self, id):
         for member in self._members:

@@ -35,12 +35,19 @@ def handle_hello():
 
 @app.route('/member/<int:member_id>', methods=['GET'])
 def get_member(member_id):
-    return jsonify(jackson_family.get_member(member_id))
+    member = jackson_family.get_member(member_id)
+    if member:
+        return member
+    else:
+        return jsonify({"message": "No member with that ID"}), 404
 
 @app.route('/member/<int:member_id>', methods=['DELETE'])
 def delete_member(member_id):
-    jackson_family.delete_member(member_id)
-    return jsonify({'done': True}), 200
+    resolved = jackson_family.delete_member(member_id)
+    if resolved:
+        return jsonify({'done': True}), 200
+    else:
+        return jsonify({"message": "No member with that ID"}), 404
 
 @app.route('/member', methods=['POST'])
 def add_member():
